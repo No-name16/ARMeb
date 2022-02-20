@@ -25,5 +25,10 @@ namespace ARMeb
         {
             Application.Current.Shutdown();
         }
+
+        private void opnBookWView_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
