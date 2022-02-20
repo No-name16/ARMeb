@@ -5,8 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ARMeb"
         mc:Ignorable="d"
-        Title="Search" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Search" Height="527" Width="903" ResizeMode="NoResize" Background="DarkSeaGreen" WindowStartupLocation="CenterScreen">
+    <Border Background="White" Margin="20" CornerRadius="20" >
+
+        <StackPanel Margin="20">
+            <Grid>
+                <Label MouseDown="CloseApp" Content="X" Width="33" HorizontalAlignment="Right" FontSize="20" FontWeight="DemiBold" Height="36"/>
+                <Label Content="Поиск книг" Foreground="Black" FontSize="30" FontWeight="Bold" HorizontalAlignment="Left"/>
+            </Grid>
+            <Separator Margin="00 10" Height="26"></Separator>
+
+            <Label Content="Поиск:   " Margin="00 10" FontSize="20" FontWeight="DemiBold" Foreground="DarkSlateGray" Height="35" Width="240" HorizontalAlignment="Right"/>
+            <Label Content="Название:   " FontSize="20" FontWeight="DemiBold" Foreground="DarkSlateGray" HorizontalAlignment="Right" Width="240"/>
+            <TextBox x:Name="BookName" Margin="00 10" Background="LightGray" FontSize="20" HorizontalAlignment="Right" Width="248" Height="23" />
+            <Label Content="Автор:   " FontSize="20" FontWeight="DemiBold" Foreground="DarkSlateGray" HorizontalAlignment="Right" Width="240"/>
+            <TextBox x:Name="BookAuthor" Margin="00 10" Background="LightGray" FontSize="20" HorizontalAlignment="Right" Width="248" Height="23" />
+            <Button x:Name="opnBookWView" HorizontalAlignment="Right" Background="DarkCyan" Foreground="White" BorderBrush="Transparent" FontWeight="DemiBold" Margin="00 10" FontSize="16" Content="Найти" Height="43" Width="247" Click="opnBookWView_Click"></Button>
+
+        </StackPanel>
+    </Border>
 </Window>

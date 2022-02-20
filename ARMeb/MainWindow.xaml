@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ARMeb"
         mc:Ignorable="d"
-        Title="Login" Height="494" Width="396" ResizeMode="NoResize" Background="DarkSeaGreen" WindowStartupLocation="CenterScreen" >
+        Title="Login" Height="494" Width="396" ResizeMode="NoResize" Background="DarkSeaGreen" WindowStartupLocation="CenterScreen" WindowStyle="None" >
+    
     <Border Background="White" Margin="20" CornerRadius="20">
 
         <StackPanel Margin="20">
@@ -13,11 +14,10 @@
             <Label Content="MyLib" Foreground="Black" FontSize="45" FontWeight="Bold" HorizontalAlignment="Center"/>
             <Separator Height="30"></Separator>
             <Label Content="Логин" FontSize="20" FontWeight="DemiBold" Foreground="DarkSlateGray"></Label>
-            <TextBox Name="txtUsername" Background="LightGray" Height="28" FontSize="20"></TextBox>
+            <TextBox Name="txtUsername" Background="LightGray" Foreground="DarkSlateGray" Height="28" FontSize="15"></TextBox>
             <Label Content="Пароль" FontWeight="DemiBold" Foreground="DarkSlateGray" FontSize="20"></Label>
-            <TextBox Name="txtPassword" Background="LightGray" FontSize="20"></TextBox>
-            <Button x:Name="btnSubmit" Background="DarkCyan" Foreground="White" BorderBrush="Transparent" FontWeight="DemiBold" Margin="00 35" FontSize="25" Content="Вход" Height="48" Width="165"></Button>
-
+            <TextBox Name="txtPassword" Background="LightGray" Foreground="DarkSlateGray" FontSize="15"  Height="28"></TextBox>
+            <Button  Click="btnSubmit_Click" x:Name="btnSubmit" Background="DarkCyan" Foreground="White" BorderBrush="Transparent" FontWeight="DemiBold" Margin="00 35" FontSize="25" Content="Вход" Height="48" Width="165"></Button>
         </StackPanel>
     </Border>
 </Window>

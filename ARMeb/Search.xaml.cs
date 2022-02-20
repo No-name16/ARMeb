@@ -21,5 +21,9 @@ namespace ARMeb
         {
             InitializeComponent();
         }
+        private void CloseApp(object sender, MouseButtonEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }
