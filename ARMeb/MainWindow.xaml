@@ -1,0 +1,23 @@
+﻿<Window x:Class="ARMeb.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ARMeb"
+        mc:Ignorable="d"
+        Title="Login" Height="494" Width="396" ResizeMode="NoResize" Background="DarkSeaGreen" WindowStartupLocation="CenterScreen" >
+    <Border Background="White" Margin="20" CornerRadius="20">
+
+        <StackPanel Margin="20">
+            <Label MouseDown="CloseApp" Content="X" Width="33" HorizontalAlignment="Right" FontSize="20" FontWeight="DemiBold" Height="36"/>
+            <Label Content="MyLib" Foreground="Black" FontSize="45" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <Separator Height="30"></Separator>
+            <Label Content="Логин" FontSize="20" FontWeight="DemiBold" Foreground="DarkSlateGray"></Label>
+            <TextBox Name="txtUsername" Background="LightGray" Height="28" FontSize="20"></TextBox>
+            <Label Content="Пароль" FontWeight="DemiBold" Foreground="DarkSlateGray" FontSize="20"></Label>
+            <TextBox Name="txtPassword" Background="LightGray" FontSize="20"></TextBox>
+            <Button x:Name="btnSubmit" Background="DarkCyan" Foreground="White" BorderBrush="Transparent" FontWeight="DemiBold" Margin="00 35" FontSize="25" Content="Вход" Height="48" Width="165"></Button>
+
+        </StackPanel>
+    </Border>
+</Window>
