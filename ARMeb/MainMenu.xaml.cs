@@ -30,12 +30,46 @@ namespace ARMeb
         }
         private void CloseApp(object sender, MouseButtonEventArgs e)
         {
+            using (var context = new ARMebContext()) //добавление в бд пользователя
+            {
+                foreach (var item in db.Listoperations)
+                {
+                    context.Listoperations.Attach(item);
+                    context.Listoperations.Remove(item);
+                    context.SaveChanges();
+                }
+            }
+
             Application.Current.Shutdown();
+
         }
 
         private void opnBookWView_Click(object sender, RoutedEventArgs e)
         {
+            Search window = new Search();
+            window.Show();
+            this.Close();
+        }
 
+        private void opnReaderView_Click(object sender, RoutedEventArgs e)
+        {
+            Users window = new Users();
+            window.Show();
+            this.Close();
+        }
+
+        private void opnBorrow_Click(object sender, RoutedEventArgs e)
+        {
+            AddDel window = new AddDel();
+            window.Show();
+            this.Close();
+        }
+
+        private void opn_Click(object sender, RoutedEventArgs e)
+        {
+            AddDelBooks window = new AddDelBooks();
+            window.Show();
+            this.Close();
         }
     }
 }

@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ARMeb.Models
 {
-    class tblUser
+    public class tblUser
     {
-            public int Id { get; set; }
-            public string Username { get; set; }
-            public string Password { get; set; }
+        [Column("UserId")]
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
     
     }
 }

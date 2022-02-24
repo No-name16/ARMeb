@@ -14,14 +14,14 @@
                     <Label Content="Главное мeню" Foreground="Black" FontSize="30" FontWeight="Bold" HorizontalAlignment="Left"/>
                 </Grid>
                 <Separator Height="30"></Separator>
-                <Button x:Name="opnBookWView" HorizontalAlignment="Left" Background="DarkCyan" Foreground="White" BorderBrush="Transparent" FontWeight="DemiBold" Margin="00 10" FontSize="16" Content="Просмотр книг в библиотеке" Height="45" Width="254" Click="opnBookWView_Click"></Button>
-                <Button x:Name="opnReaderView" HorizontalAlignment="Left" Background="DarkCyan" Foreground="White" BorderBrush="Transparent" FontWeight="DemiBold" Margin="00 10" FontSize="16" Content="Просмотр читателей" Height="45" Width="254"></Button>
-                <Button x:Name="opnBorrow" HorizontalAlignment="Left" Background="DarkCyan" Foreground="White" BorderBrush="Transparent" FontWeight="DemiBold" Margin="00 10" FontSize="16" Content="Просмотр должников" Height="45" Width="254"></Button>
-                <Button x:Name="opn" HorizontalAlignment="Left" Background="DarkCyan" Foreground="White" BorderBrush="Transparent" FontWeight="DemiBold" Margin="00 10" FontSize="16" Content="Выдача-возврат" Height="45" Width="254"></Button>
+                <Button x:Name="opnBookWView" HorizontalAlignment="Left" Background="DarkCyan" Foreground="White" BorderBrush="Transparent" FontWeight="DemiBold" Margin="00 10" FontSize="16" Content="Поиск книг в библиотеке" Height="45" Width="254" Click="opnBookWView_Click"></Button>
+                <Button x:Name="opnReaderView" HorizontalAlignment="Left" Background="DarkCyan" Foreground="White" BorderBrush="Transparent" FontWeight="DemiBold" Margin="00 10" FontSize="16" Content="Поиск читателей" Height="45" Width="254" Click="opnReaderView_Click"></Button>
+                <Button x:Name="opnBorrow" HorizontalAlignment="Left" Background="DarkCyan" Foreground="White" BorderBrush="Transparent" FontWeight="DemiBold" Margin="00 10" FontSize="16" Content="Редатирование читателей" Height="45" Width="254" Click="opnBorrow_Click"></Button>
+                <Button x:Name="opn" HorizontalAlignment="Left" Background="DarkCyan" Foreground="White" BorderBrush="Transparent" FontWeight="DemiBold" Margin="00 10" FontSize="16" Content="Редактирование книг" Height="45" Width="254" Click="opn_Click"></Button>
 
 
             </StackPanel>
-            <DataGrid AutoGenerateColumns="False" x:Name="operationsGrid" Width="276" HorizontalAlignment="Left" Margin="344,117,0,46"  HorizontalGridLinesBrush="DarkSeaGreen" VerticalGridLinesBrush="DarkSeaGreen"  FontWeight="Bold" Grid.RowSpan="4" Grid.ColumnSpan="1" Height="235" CanUserReorderColumns="False" CanUserResizeColumns="False" >
+            <DataGrid AutoGenerateColumns="False" x:Name="operationsGrid" Width="276" HorizontalAlignment="Left" Margin="344,117,0,46"  HorizontalGridLinesBrush="DarkSeaGreen" VerticalGridLinesBrush="DarkSeaGreen"  FontWeight="Bold" Grid.RowSpan="4" Grid.ColumnSpan="1" Height="235" CanUserReorderColumns="False" >
 
                 
                 <DataGrid.Columns >

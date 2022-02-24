@@ -41,7 +41,7 @@ namespace ARMeb
 
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
-            /*using(var context = new UserContext()) //добавление в бд пользователя
+           using(var context = new ARMebContext()) //добавление в бд пользователя
             {
                 var group = new tblUser()
                 {
@@ -50,15 +50,27 @@ namespace ARMeb
                     Password = "1234",
                 };
                 context.Users.Add(group);
+
                 context.SaveChanges();
-            }*/
+            }
+            using (var context = new ARMebContext()) //добавление в бд пользователя
+            {
+                var group = new Operations()
+                {
+                    Time = DateTime.Now,
+                    Title = "Вход выполнен"
+                };
+                context.Listoperations.Add(group);
+
+                context.SaveChanges();
+            }
             foreach (tblUser user in db.Users){
                 if (user.Username == txtUsername.Text && user.Password == txtPassword.Text)
                 {
-                    Console.WriteLine(user.Username, " ", user.Password);
                     MainMenu window = new MainMenu();
                     window.Show();
                     this.Close();
+                    break;
                 }
                 
             }
