@@ -10,6 +10,7 @@ namespace ARMeb.Models
     {
         [Column("BookId")]
         public int Id { get; set; }
+
         public string Bookname { get; set; }
         public string BookAuthor { get; set; }
         public int NumOfBooks { get; set; }
