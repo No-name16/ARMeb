@@ -13,6 +13,7 @@ using ARMeb.Models;
 using System.Data.Entity;
 using System.Text.RegularExpressions;
 using ARMeb.Contracts;
+using System.Linq;
 
 namespace ARMeb
 {
@@ -21,60 +22,54 @@ namespace ARMeb
     /// </summary>
     public partial class UpdatePage : Window
     {
-        tblBook sort;
+        String sort;
         ARMebContext db;
         int Id;
-        private readonly IRepositoryManager repository;
+        private IRepositoryManager repository;
         public UpdatePage(int userId)
         {
+            var readers = repository.Readers.GetReader(userId,true);
             InitializeComponent();
             db = new ARMebContext();
             db.Readers.Load();
-            foreach (var item in db.Books)
+            
+            foreach (var item in repository.Books.GetAllBooks(true))
             {
-                if (item.NumOfBooks >= Count(item))
+                if (item.IsAny == true)
                 {
                     ComboBook.Items.Add(item.Bookname);
                 }
             }
+            txtUsername.Text = readers.Name;
+            txtPassword.Text = readers.Age.ToString();
+            sort = readers.TblBooks.Bookname;
             Id = userId;
         }
-        private int Count(tblBook item)
-        {
-            int count = 0;
-            using (var context = new ARMebContext()) //добавление в бд пользователя
-            {
-                foreach (var reader in context.Readers)
-                {
-                    if (reader.BookId == item.Id)
-                    {
-                        count++;
-                    }
-                }
+        
 
-                this.Hide();
-            }
-
-            return count;
-        }
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
 
             var reader = repository.Readers.GetReader(Id, true);
             reader.Name = txtUsername.Text;
             reader.Age = int.Parse(txtPassword.Text);
-            reader.TblBooks = sort;
+            reader.BookId = repository.Books.GetId(sort, true);
+            reader.TblBooks = repository.Books.GetBook(reader.BookId,true);
             repository.Readers.UpdateReader(reader);
+            foreach (var item in repository.Books.GetAllBooks(true))
+            {
+                var readerlist = db.Readers.Where(x => x.BookId == repository.Books.GetId(item.Bookname, true)).ToList();
+                if (item.NumOfBooks > readerlist.Count())
+                {
+                    var uppbook = repository.Books.GetBook(item.Id, true);
+                    uppbook.IsAny = false;
+                    repository.Books.UpdateBook(uppbook);
+                }
+            }
             this.Hide();
         }
 
-        private void ComboBook_Selected(object sender, RoutedEventArgs e)
-        {
-            ComboBox comboBox = (ComboBox)sender;
-            ComboBoxItem selectedItem = (ComboBoxItem)comboBox.SelectedItem;
-            sort = (tblBook)selectedItem.Content;
-
-        }
+        
         private void PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
@@ -83,9 +78,9 @@ namespace ARMeb
 
         private void ComboBook_Selected_1(object sender, RoutedEventArgs e)
         {
-            /*ComboBox comboBox = (ComboBox)sender;
+            ComboBox comboBox = (ComboBox)sender;
             String selectedItem = (String)comboBox.SelectedItem;
-            sort = selectedItem;*/
+            sort = selectedItem;
         }
     }
 }

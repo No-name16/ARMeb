@@ -41,18 +41,32 @@ namespace ARMeb
 
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
-           using(var context = new ARMebContext()) //добавление в бд пользователя
+            /*using(var context = new ARMebContext()) //добавление в бд пользователя
+             {
+                 var group = new tblUser()
+                 {
+                     Id = 2,
+                     Username = "Vika",
+                     Password = "1234",
+                 };
+                 context.Users.Add(group);
+
+                 context.SaveChanges();
+             }*/
+            using (var context = new ARMebContext()) //добавление в бд пользователя
             {
-                var group = new tblUser()
+                var group = new Readers()
                 {
-                    Id = 2,
-                    Username = "Vika",
-                    Password = "1234",
+
+                    Name = "Vika",
+                    Age = 16,
+                    HaveBooks = false,
                 };
-                context.Users.Add(group);
+                context.Readers.Add(group);
 
                 context.SaveChanges();
             }
+
             using (var context = new ARMebContext()) //добавление в бд пользователя
             {
                 var group = new Operations()
@@ -64,18 +78,21 @@ namespace ARMeb
 
                 context.SaveChanges();
             }
+            bool incorrect = true;
             foreach (tblUser user in db.Users){
                 if (user.Username == txtUsername.Text && user.Password == txtPassword.Text)
                 {
                     MainMenu window = new MainMenu();
                     window.Show();
                     this.Close();
+                    incorrect = false;
                     break;
-                }
-                
+                }  
             }
-            MessageBox.Show("Username or password are incorrect!");
-            
+            if (incorrect)
+            {
+                MessageBox.Show("Username or password are incorrect!");
+            }
         }
     }
 }

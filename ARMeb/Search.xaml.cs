@@ -23,13 +23,12 @@ namespace ARMeb
     public partial class Search : Window
     {
         ARMebContext db;
-        private string sort;
         public Search()
         {
             InitializeComponent();
             db = new ARMebContext();
             db.Books.Load();
-            /*using (var context = new ARMebContext()) //добавление в бд пользователя
+            using (var context = new ARMebContext()) //добавление в бд пользователя
             {
                 var group = new tblBook()
                 {
@@ -44,7 +43,7 @@ namespace ARMeb
                 context.Books.Add(group);
 
                 context.SaveChanges();
-            }*/
+            }
             // загружаем данны
 
         }
@@ -60,25 +59,6 @@ namespace ARMeb
 
             // Отложенный запрос
             var listbooks = db.Books.ToList();
-            switch (sort)
-            {
-              
-                case "По названию":
-                    var orderedList = listbooks.OrderBy(p => p.Bookname);
-                    break;
-                case "По автору":
-                    orderedList = listbooks.OrderBy(p => p.BookAuthor);
-                    break;
-                case "По количеству кинг":
-                    orderedList = listbooks.OrderBy(p => p.NumOfBooks);
-                    break;
-                case "По ID":
-                    orderedList = listbooks.OrderBy(p => p.Id);
-                    break;
-                default:
-                    break;
-
-            }
             // Извлечь всех заказчиков и отобразить их имена в консоли
             List<tblBook> result = new List<tblBook> { };
             if ("" != BookAuthor.Text || "" != BookName.Text)
@@ -86,8 +66,6 @@ namespace ARMeb
                 foreach (tblBook book in listbooks)
                 {
                     if ((book.BookAuthor == BookAuthor.Text && book.Bookname == BookName.Text) || ("" == BookAuthor.Text && book.Bookname == BookName.Text) || (book.BookAuthor == BookAuthor.Text && "" == BookName.Text))
-
-
                     {
                         result.Add(book);
                     }
@@ -99,12 +77,6 @@ namespace ARMeb
             }
             bookGrid.ItemsSource = result;
         }
-        private void ComboBox_Selected(object sender, RoutedEventArgs e)
-        {
-            ComboBox comboBox = (ComboBox)sender;
-            TextBlock selectedItem = (TextBlock)comboBox.SelectedItem;
-            sort = selectedItem.Text.ToString();
-
-        }
+       
     }
 }

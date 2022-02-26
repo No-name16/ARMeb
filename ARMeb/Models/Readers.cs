@@ -12,8 +12,6 @@ namespace ARMeb.Models
         public string Name { get; set; }
         public int Age { get; set; }
         public bool HaveBooks { get; set; }
-
-        [ForeignKey(nameof(tblBook))]
         public int BookId { get; set; }      
         public tblBook TblBooks { get; set; }  
     }

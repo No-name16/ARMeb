@@ -25,7 +25,7 @@ namespace ARMeb.Repository
 
         public IEnumerable<Readers> GetAllReaders(bool trackChanges) =>
             FindAll(trackChanges)
-            .Include(x => x.TblBooks)
+            .Include(x => x.Id)
             .OrderBy(x => x.Id)
             .ToList();
 
@@ -33,4 +33,5 @@ namespace ARMeb.Repository
             FindByCondition(c => c.Id.Equals(id), trackChanges)
             .FirstOrDefault();
     }
+
 }

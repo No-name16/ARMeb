@@ -31,32 +31,15 @@ namespace ARMeb
             db = new ARMebContext();
             db.Books.Load();
             db.Readers.Load();
-            foreach (var item in db.Books)
+            foreach (var item in repository.Books.GetAllBooks(true))
             {
-                if (item.NumOfBooks >= Count(item))
+                if (item.IsAny == true)
                 {
                     ComboBook.Items.Add(item.Bookname);
                 }
             }
         }
-        private int Count(tblBook item)
-        {
-            int count = 0;
-            using (var context = new ARMebContext()) //добавление в бд пользователя
-            {
-                foreach (var reader in context.Readers)
-                {
-                    if (reader.BookId == item.Id)
-                    {
-                        count++;
-                    }
-                }
-
-                this.Hide();
-            }
-            
-            return count;
-        }
+        
         private void PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
@@ -65,45 +48,25 @@ namespace ARMeb
 
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
-
-            var group = new Readers()
+            Readers reader = new Readers();
+            reader.Name = txtUsername.Text;
+            reader.Age = int.Parse(txtPassword.Text);
+            reader.BookId = repository.Books.GetId(sort, true);
+            reader.TblBooks = repository.Books.GetBook(reader.BookId, true);
+            repository.Readers.CreateReader(reader);
+            foreach (var item in repository.Books.GetAllBooks(true))
             {
-                Name = txtUsername.Text,
-                Age = int.Parse(txtPassword.Text),
-                Id = FindBook(sort),
-                HaveBooks = Haveb(sort),
-
-            };
-            repository.Readers.CreateReader(group);
+                var readerlist = db.Readers.Where(x => x.BookId == repository.Books.GetId(item.Bookname, true)).ToList();
+                if (item.NumOfBooks > readerlist.Count())
+                {
+                    var uppbook = repository.Books.GetBook(item.Id, true);
+                    uppbook.IsAny = false;
+                    repository.Books.UpdateBook(uppbook);
+                }
+            }
             this.Hide();
         }
-        
-        private int FindBook(String bood)
-        {
-            using (var context = new ARMebContext()) //добавление в бд пользователя
-            {
-                foreach (var item in context.Books)
-                {
-                    if (item.Bookname == bood)
-                    {
-                        return item.Id;
-                    }
-                }
-                return 0;
-            }
-            
-        }
-        private bool Haveb(String bood)
-        {
-            if (bood != "")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+
         private void ComboBox_Selected(object sender, RoutedEventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;

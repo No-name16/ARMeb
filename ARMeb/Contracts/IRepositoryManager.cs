@@ -9,6 +9,7 @@ namespace ARMeb.Contracts
         //https://github.com/DmitriVT/FridgeAPI
         public IReaderRepository Readers { get; }
 
+        public IBookRepository Books { get; }
         void Save();
     }
 }

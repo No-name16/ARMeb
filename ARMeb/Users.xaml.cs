@@ -23,7 +23,7 @@ namespace ARMeb
         public string Bookname { get; set; }
         public int Age { get; set; }
         public bool HaveBooks { get; set; }
-        
+
     }
 
     /// <summary>
@@ -53,24 +53,83 @@ namespace ARMeb
             // Извлечь всех заказчиков и отобразить их имена в консоли
             List<Re> data = new List<Re>();
             string name = BookName.Text;
-            int age = int.Parse(BookAuthor.Text);
-            var readers = repository.Readers.GetAllReaders(trackChanges: true);
-            
-            foreach (Readers reader in readers)
+            int age;
+            if (BookAuthor.Text == "")
             {
-                Re newperson = new Re()
-                {
-                    Id = reader.Id,
-                    Name = reader.Name,
-                    HaveBooks = reader.HaveBooks,
-                    Bookname = reader.TblBooks.Bookname,
-                    Age = reader.Age,
-                };
-                data.Add(newperson);
+                age = 0;
+            }
+            else
+            {
+                age = int.Parse(BookAuthor.Text);
             }
 
+            if (name == "" && age == 0)
+            {
+                var readers = repository.Readers.GetAllReaders(trackChanges: false);
+                foreach (Readers reader in readers)
+                {
+                    Re newperson = new Re()
+                    {
+                        Id = reader.Id,
+                        Name = reader.Name,
+                        HaveBooks = reader.HaveBooks,
+                        Bookname = reader.TblBooks.Bookname,
+                        Age = reader.Age,
+                    };
+
+                    data.Add(newperson);
+                }
+            }
+            else if (name != "" && age != 0)
+            {
+                using (var context = new ARMebContext()) //добавление в бд пользователя
+                {
+                    foreach (var item in db.Readers)
+                    {
+                        if (name == item.Name && age == item.Age)
+                        {
+
+                            Re newperson = new Re()
+                            {
+                                Id = item.Id,
+                                Name = item.Name,
+                                HaveBooks = item.HaveBooks,
+                                Bookname = item.TblBooks.Bookname,
+                                Age = item.Age,
+                            };
+
+                            data.Add(newperson);
+                        }
+                    }
+                }
+
+                bookGrid.ItemsSource = data;
+            }
+            else
+            {
+                using (var context = new ARMebContext()) //добавление в бд пользователя
+                {
+                    foreach (var item in db.Readers)
+                    {
+                        if (name == item.Name || age == item.Age)
+                        {
+
+                            Re newperson = new Re()
+                            {
+                                Id = item.Id,
+                                Name = item.Name,
+                                HaveBooks = item.HaveBooks,
+                                Bookname = item.TblBooks.Bookname,
+                                Age = item.Age,
+                            };
+
+                            data.Add(newperson);
+                        }
+                    }
+                }
+            }
             bookGrid.ItemsSource = data;
-        }  
+        }
         private void sortType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;

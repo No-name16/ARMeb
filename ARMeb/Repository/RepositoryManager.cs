@@ -12,6 +12,7 @@ namespace ARMeb.Repository
 
         private IReaderRepository _readerRepository;
 
+        private IBookRepository _bookRepository;
         public RepositoryManager(ARMebContext repository)
         {
             _repositoryContext = repository;
@@ -25,6 +26,17 @@ namespace ARMeb.Repository
                     _readerRepository = new ReaderRepository(_repositoryContext);
 
                 return _readerRepository;
+            }
+        }
+
+        public IBookRepository Books
+        {
+            get
+            {
+                if (_bookRepository == null)
+                    _bookRepository = new BookRepository(_repositoryContext);
+
+                return _bookRepository;
             }
         }
 

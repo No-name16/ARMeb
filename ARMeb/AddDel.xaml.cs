@@ -21,16 +21,16 @@ namespace ARMeb
     /// </summary>
     public partial class AddDel : Window
     {
-        ARMebContext db;
+        static ARMebContext db;
         private readonly IRepositoryManager repository;
-
+        Repository.ReaderRepository reader1 = new Repository.ReaderRepository(db);
         public AddDel()
         {
             InitializeComponent();
             db = new ARMebContext();
             List<Re> data = new List<Re>();
 
-            var readers = repository.Readers.GetAllReaders(trackChanges: false);
+            var readers = reader1.GetAllReaders(trackChanges: false);
 
             foreach (Readers reader in readers)
             {
