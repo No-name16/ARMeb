@@ -13,6 +13,6 @@ namespace ARMeb.Models
         public int Age { get; set; }
         public bool HaveBooks { get; set; }
         public int BookId { get; set; }      
-        public tblBook TblBooks { get; set; }  
+        public virtual tblBook TblBooks { get; set; }  
     }
 }

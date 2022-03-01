@@ -32,7 +32,7 @@ namespace ARMeb
         {
             using (var context = new ARMebContext()) //добавление в бд пользователя
             {
-                foreach (var item in db.Listoperations)
+                foreach (var item in context.Listoperations)
                 {
                     context.Listoperations.Attach(item);
                     context.Listoperations.Remove(item);

@@ -13,6 +13,7 @@ using ARMeb.Models;
 using System.Data.Entity;
 using System.Linq;
 using System.Text.RegularExpressions;
+using ARMeb.Repository;
 
 namespace ARMeb
 {
@@ -21,7 +22,8 @@ namespace ARMeb
     /// </summary>
     public partial class InsertPageBook : Window
     {
-        ARMebContext db;
+        static ARMebContext db = new ARMebContext();
+        RepositoryManager repository = new RepositoryManager(db);
         String sort;
         public InsertPageBook()
         {
@@ -42,12 +44,11 @@ namespace ARMeb
                 var group = new tblBook()
                 {
                     Bookname = txtUsername.Text,
-
                     BookAuthor = txtAuthor.Text,
                     NumOfBooks = int.Parse(txtPassword.Text),
                     IsAny = Haveb(int.Parse(txtPassword.Text)),
                 };
-                context.Books.Add(group);
+                repository.Books.CreateBook(group);
                 context.SaveChanges();
 
                 this.Hide();

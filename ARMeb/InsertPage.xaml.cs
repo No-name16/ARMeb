@@ -14,6 +14,7 @@ using ARMeb.Models;
 using System.Data.Entity;
 using System.Linq;
 using ARMeb.Contracts;
+using ARMeb.Repository;
 
 namespace ARMeb
 {
@@ -22,20 +23,20 @@ namespace ARMeb
     /// </summary>
     public partial class InsertPage : Window
     {
-        ARMebContext db;
+        
         String sort;
-        private  IRepositoryManager repository;
+        static ARMebContext db = new ARMebContext();
+        RepositoryManager repository = new RepositoryManager(db);
+        string bookid = "";
         public InsertPage()
         {
             InitializeComponent();
-            db = new ARMebContext();
-            db.Books.Load();
-            db.Readers.Load();
+            
             foreach (var item in repository.Books.GetAllBooks(true))
             {
                 if (item.IsAny == true)
                 {
-                    ComboBook.Items.Add(item.Bookname);
+                    ComboBook.Items.Add(item.Id+". "+item.Bookname);
                 }
             }
         }
@@ -51,28 +52,36 @@ namespace ARMeb
             Readers reader = new Readers();
             reader.Name = txtUsername.Text;
             reader.Age = int.Parse(txtPassword.Text);
-            reader.BookId = repository.Books.GetId(sort, true);
-            reader.TblBooks = repository.Books.GetBook(reader.BookId, true);
-            repository.Readers.CreateReader(reader);
-            foreach (var item in repository.Books.GetAllBooks(true))
+            if (sort != null)
             {
-                var readerlist = db.Readers.Where(x => x.BookId == repository.Books.GetId(item.Bookname, true)).ToList();
-                if (item.NumOfBooks > readerlist.Count())
+                foreach (char st in sort)
                 {
-                    var uppbook = repository.Books.GetBook(item.Id, true);
-                    uppbook.IsAny = false;
-                    repository.Books.UpdateBook(uppbook);
+                    if (st == '.')
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        bookid += st;
+                    }
                 }
+                if (repository.Books.GetBook(int.Parse(bookid), true).Readers != null)
+                {
+                    if (repository.Books.GetBook(int.Parse(bookid), true).NumOfBooks <= repository.Books.GetBook(int.Parse(bookid), true).Readers.Count() + 1)
+                    {
+
+                        var uppbook = repository.Books.GetBook(int.Parse(bookid), true);
+                        uppbook.IsAny = false;
+                        repository.Books.UpdateBook(uppbook);
+                    }
+                }
+
+                reader.TblBooks = repository.Books.GetBook(int.Parse(bookid), true);
+                reader.HaveBooks = true;
+                repository.Readers.CreateReader(reader);
+
+                this.Hide();
             }
-            this.Hide();
-        }
-
-        private void ComboBox_Selected(object sender, RoutedEventArgs e)
-        {
-            ComboBox comboBox = (ComboBox)sender;
-            ComboBoxItem selectedItem = (ComboBoxItem)comboBox.SelectedItem;
-            sort = selectedItem.Content.ToString();
-
         }
 
         private void ComboBook_Selected(object sender, RoutedEventArgs e)

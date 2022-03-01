@@ -28,7 +28,7 @@ namespace ARMeb
             InitializeComponent();
             db = new ARMebContext();
             db.Books.Load();
-            using (var context = new ARMebContext()) //добавление в бд пользователя
+            /*using (var context = new ARMebContext()) //добавление в бд пользователя
             {
                 var group = new tblBook()
                 {
@@ -43,7 +43,7 @@ namespace ARMeb
                 context.Books.Add(group);
 
                 context.SaveChanges();
-            }
+            }*/
             // загружаем данны
 
         }

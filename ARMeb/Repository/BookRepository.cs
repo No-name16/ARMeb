@@ -1,14 +1,14 @@
-﻿using ARMeb.Contracts;
+﻿using ARMeb.Repository;
 using ARMeb.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ARMeb.Repository
 {
-    public class BookRepository : RepositoryBase<tblBook>, IBookRepository
+    public class BookRepository : RepositoryBase<tblBook>
     {
         private readonly ARMebContext _context;
 
@@ -19,7 +19,6 @@ namespace ARMeb.Repository
         }
 
         public void CreateBook(tblBook book) => Create(book);
-
         public void UpdateBook(tblBook book) => Update(book);
         public void DeleteBook(tblBook book) => Delete(book);
 
@@ -32,9 +31,10 @@ namespace ARMeb.Repository
             FindByCondition(c => c.Id.Equals(id), trackChanges)
             .FirstOrDefault();
 
-        public int GetId(string name,bool trackChanges) =>
+        public int GetId(string name, bool trackChanges) =>
              FindByCondition(c => c.Bookname.Equals(name), trackChanges)
             .FirstOrDefault()
             .Id;
     }
 }
+   

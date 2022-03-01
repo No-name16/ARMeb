@@ -13,6 +13,7 @@ using ARMeb.Models;
 using System.Data.Entity;
 using System.Linq;
 using ARMeb.Contracts;
+using ARMeb.Repository;
 
 namespace ARMeb
 {
@@ -32,13 +33,11 @@ namespace ARMeb
     public partial class Users : Window
     {
         String sort;
-        ARMebContext db;
-        private readonly IRepositoryManager repository;
+        static ARMebContext db = new ARMebContext();
+        RepositoryManager repository = new RepositoryManager(db);
         public Users()
         {
             InitializeComponent();
-            db = new ARMebContext();
-            db.Readers.Load();
             // загружаем данны
         }
         private void CloseApp(object sender, MouseButtonEventArgs e)
@@ -68,12 +67,20 @@ namespace ARMeb
                 var readers = repository.Readers.GetAllReaders(trackChanges: false);
                 foreach (Readers reader in readers)
                 {
+                    string book = "";
+                    if (reader.TblBooks == null)
+                    {
+                        book = "Нету книг";
+                    } else
+                    {
+                        book = reader.TblBooks.Bookname;
+                    }
                     Re newperson = new Re()
                     {
                         Id = reader.Id,
                         Name = reader.Name,
                         HaveBooks = reader.HaveBooks,
-                        Bookname = reader.TblBooks.Bookname,
+                        Bookname = book,
                         Age = reader.Age,
                     };
 
@@ -84,42 +91,56 @@ namespace ARMeb
             {
                 using (var context = new ARMebContext()) //добавление в бд пользователя
                 {
-                    foreach (var item in db.Readers)
+                    foreach (var reader in db.Readers)
                     {
-                        if (name == item.Name && age == item.Age)
+                        if (reader.Name == name && reader.Age == age)
                         {
-
+                            string book = "";
+                            if (reader.TblBooks == null)
+                            {
+                                book = "Нету книг";
+                            }
+                            else
+                            {
+                                book = reader.TblBooks.Bookname;
+                            }
                             Re newperson = new Re()
                             {
-                                Id = item.Id,
-                                Name = item.Name,
-                                HaveBooks = item.HaveBooks,
-                                Bookname = item.TblBooks.Bookname,
-                                Age = item.Age,
+                                Id = reader.Id,
+                                Name = reader.Name,
+                                HaveBooks = reader.HaveBooks,
+                                Bookname = book,
+                                Age = reader.Age,
                             };
 
                             data.Add(newperson);
                         }
                     }
-                }
-
-                bookGrid.ItemsSource = data;
-            }
-            else
-            {
+                    }
+                } else { 
+            
                 using (var context = new ARMebContext()) //добавление в бд пользователя
                 {
                     foreach (var item in db.Readers)
                     {
                         if (name == item.Name || age == item.Age)
                         {
+                            string book = "";
+                            if (item.TblBooks == null)
+                            {
+                                book = "Нету книг";
+                            }
+                            else
+                            {
+                                book = item.TblBooks.Bookname;
+                            }
 
                             Re newperson = new Re()
                             {
                                 Id = item.Id,
                                 Name = item.Name,
                                 HaveBooks = item.HaveBooks,
-                                Bookname = item.TblBooks.Bookname,
+                                Bookname = book,
                                 Age = item.Age,
                             };
 

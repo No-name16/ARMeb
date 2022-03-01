@@ -14,6 +14,7 @@ using System.Data.Entity;
 using System.Text.RegularExpressions;
 using ARMeb.Contracts;
 using System.Linq;
+using ARMeb.Repository;
 
 namespace ARMeb
 {
@@ -23,26 +24,28 @@ namespace ARMeb
     public partial class UpdatePage : Window
     {
         String sort;
-        ARMebContext db;
         int Id;
-        private IRepositoryManager repository;
+        string bookid = "";
+        static ARMebContext db = new ARMebContext();
+        RepositoryManager repository = new RepositoryManager(db);
         public UpdatePage(int userId)
         {
             var readers = repository.Readers.GetReader(userId,true);
             InitializeComponent();
-            db = new ARMebContext();
-            db.Readers.Load();
             
             foreach (var item in repository.Books.GetAllBooks(true))
             {
                 if (item.IsAny == true)
                 {
-                    ComboBook.Items.Add(item.Bookname);
+                    ComboBook.Items.Add(item.Id+". "+item.Bookname);
                 }
             }
             txtUsername.Text = readers.Name;
             txtPassword.Text = readers.Age.ToString();
-            sort = readers.TblBooks.Bookname;
+            if (readers.TblBooks != null)
+            {
+                bookid = readers.BookId.ToString();
+            }
             Id = userId;
         }
         
@@ -53,19 +56,39 @@ namespace ARMeb
             var reader = repository.Readers.GetReader(Id, true);
             reader.Name = txtUsername.Text;
             reader.Age = int.Parse(txtPassword.Text);
-            reader.BookId = repository.Books.GetId(sort, true);
-            reader.TblBooks = repository.Books.GetBook(reader.BookId,true);
-            repository.Readers.UpdateReader(reader);
-            foreach (var item in repository.Books.GetAllBooks(true))
+            if (reader.TblBooks != null)
             {
-                var readerlist = db.Readers.Where(x => x.BookId == repository.Books.GetId(item.Bookname, true)).ToList();
-                if (item.NumOfBooks > readerlist.Count())
+                var newbok = reader.TblBooks;
+                newbok.IsAny = true;
+                repository.Books.Update(newbok);
+
+            }
+            if (sort != null)
+            {
+                foreach (char st in sort)
                 {
-                    var uppbook = repository.Books.GetBook(item.Id, true);
+                    if (st == '.')
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        bookid += st;
+                    }
+                }
+                if (repository.Books.GetBook(reader.BookId, true).NumOfBooks <= repository.Books.GetBook(reader.BookId, true).Readers.Count()+1)
+                {
+                    
+                    var uppbook = repository.Books.GetBook(int.Parse(bookid), true);
                     uppbook.IsAny = false;
                     repository.Books.UpdateBook(uppbook);
                 }
+            } else
+            {
+                reader.HaveBooks = false;
             }
+            repository.Readers.UpdateReader(reader);
+            
             this.Hide();
         }
 

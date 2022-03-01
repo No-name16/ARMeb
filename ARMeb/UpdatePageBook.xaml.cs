@@ -12,6 +12,7 @@ using System.Windows.Shapes;
 using ARMeb.Models;
 using System.Data.Entity;
 using System.Text.RegularExpressions;
+using ARMeb.Repository;
 
 namespace ARMeb
 {
@@ -20,8 +21,8 @@ namespace ARMeb
     /// </summary>
     public partial class UpdatePageBook : Window
     {
-        tblBook sort;
-        ARMebContext db;
+        static ARMebContext db = new ARMebContext();
+        RepositoryManager repository = new RepositoryManager(db);
         int Id;
         public UpdatePageBook(int userId)
         {
@@ -33,27 +34,12 @@ namespace ARMeb
         }
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
-
-            using (var context = new ARMebContext()) //добавление в бд пользователя
-            {
-                foreach (var item in db.Books)
-                {
-                    if (item.Id.Equals(Id))
-                    {
-
-                        item.Bookname = txtUsername.Text;
-                        item.BookAuthor = txtAuthor.Text;
-                        item.NumOfBooks = int.Parse(txtPassword.Text);
-                        context.Books.Add(item);
-                        context.Books.Attach(item);
-                        context.Entry(item).State = EntityState.Modified;
-                        context.SaveChanges();
-                        this.Hide();
-                    }
-                }
-            }
-
-
+            tblBook item = new tblBook();
+            item.Bookname = txtUsername.Text;
+            item.BookAuthor = txtAuthor.Text;
+            item.NumOfBooks = int.Parse(txtPassword.Text);
+            repository.Books.UpdateBook(item);
+            this.Hide();
         }
        
         private void PreviewTextInput(object sender, TextCompositionEventArgs e)

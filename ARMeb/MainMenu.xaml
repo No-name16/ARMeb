@@ -16,7 +16,7 @@
                 <Separator Height="30"></Separator>
                 <Button x:Name="opnBookWView" HorizontalAlignment="Left" Background="DarkCyan" Foreground="White" BorderBrush="Transparent" FontWeight="DemiBold" Margin="00 10" FontSize="16" Content="Поиск книг в библиотеке" Height="45" Width="254" Click="opnBookWView_Click"></Button>
                 <Button x:Name="opnReaderView" HorizontalAlignment="Left" Background="DarkCyan" Foreground="White" BorderBrush="Transparent" FontWeight="DemiBold" Margin="00 10" FontSize="16" Content="Поиск читателей" Height="45" Width="254" Click="opnReaderView_Click"></Button>
-                <Button x:Name="opnBorrow" HorizontalAlignment="Left" Background="DarkCyan" Foreground="White" BorderBrush="Transparent" FontWeight="DemiBold" Margin="00 10" FontSize="16" Content="Редатирование читателей" Height="45" Width="254" Click="opnBorrow_Click"></Button>
+                <Button x:Name="opnBorrow" HorizontalAlignment="Left" Background="DarkCyan" Foreground="White" BorderBrush="Transparent" FontWeight="DemiBold" Margin="00 10" FontSize="16" Content="Редактирование читателей" Height="45" Width="254" Click="opnBorrow_Click"></Button>
                 <Button x:Name="opn" HorizontalAlignment="Left" Background="DarkCyan" Foreground="White" BorderBrush="Transparent" FontWeight="DemiBold" Margin="00 10" FontSize="16" Content="Редактирование книг" Height="45" Width="254" Click="opn_Click"></Button>
 
 

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ARMeb.Repository
 {
-    public class ReaderRepository : RepositoryBase<Readers>, IReaderRepository
+    public class ReaderRepository : RepositoryBase<Readers>
     {
         private readonly ARMebContext _context;
 
@@ -25,7 +25,6 @@ namespace ARMeb.Repository
 
         public IEnumerable<Readers> GetAllReaders(bool trackChanges) =>
             FindAll(trackChanges)
-            .Include(x => x.Id)
             .OrderBy(x => x.Id)
             .ToList();
 

@@ -53,11 +53,11 @@ namespace ARMeb
 
                  context.SaveChanges();
              }*/
-            using (var context = new ARMebContext()) //добавление в бд пользователя
+            /*using (var context = new ARMebContext()) //добавление в бд пользователя
             {
                 var group = new Readers()
                 {
-
+                    Id = 5,
                     Name = "Vika",
                     Age = 16,
                     HaveBooks = false,
@@ -65,7 +65,7 @@ namespace ARMeb
                 context.Readers.Add(group);
 
                 context.SaveChanges();
-            }
+            }*/
 
             using (var context = new ARMebContext()) //добавление в бд пользователя
             {
