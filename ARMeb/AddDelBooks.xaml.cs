@@ -26,14 +26,13 @@ namespace ARMeb
         public AddDelBooks()
         {
             InitializeComponent();
-            db.Books.Load();
-            myDataGrid.ItemsSource = db.Books.Local.ToBindingList();
+            myDataGrid.ItemsSource = repository.Books.GetAllBooks(false);
         }
         private void insertBtn_Click(object sender, RoutedEventArgs e)
         {
             InsertPageBook page = new InsertPageBook();
             page.ShowDialog();
-            myDataGrid.ItemsSource = db.Books.Local.ToBindingList();
+            myDataGrid.ItemsSource = repository.Books.GetAllBooks(false);
         }
 
         private void editBtn_Click(object sender, RoutedEventArgs e)
@@ -47,13 +46,13 @@ namespace ARMeb
                     {
                         UpdatePageBook page = new UpdatePageBook(item.Id);
                         page.ShowDialog();
-                        myDataGrid.ItemsSource = db.Books.Local.ToBindingList();
-
                     }
                 }
             }
 
+            myDataGrid.ItemsSource = repository.Books.GetAllBooks(false);
         }
+
         private void CloseApp(object sender, MouseButtonEventArgs e)
         {
             MainMenu window = new MainMenu();
@@ -64,7 +63,7 @@ namespace ARMeb
         private void deleteBtn_Click(object sender, RoutedEventArgs e)
         {
             var newper = repository.Books.GetBook(((tblBook)myDataGrid.SelectedItem).Id, true);
-            if (newper.Readers != null)
+            if (newper.HandBookValue != 0)
             {
                 MessageBox.Show("Книга на руках у читателя, не может быть удалена");
             }

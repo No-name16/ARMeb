@@ -14,6 +14,8 @@ namespace ARMeb.Models
         public string Bookname { get; set; }
         public string BookAuthor { get; set; }
         public int NumOfBooks { get; set; }
+
+        public int HandBookValue { get; set; }
         public bool IsAny { get; set; }
         public ICollection<Readers> Readers { get; set; }
     }

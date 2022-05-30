@@ -60,7 +60,8 @@ namespace ARMeb
             {
                 var newbok = reader.TblBooks;
                 newbok.IsAny = true;
-                repository.Books.Update(newbok);
+                newbok.HandBookValue -= 1;
+                repository.Books.UpdateBook(newbok);
 
             }
             if (sort != null)
@@ -75,20 +76,32 @@ namespace ARMeb
                     {
                         bookid += st;
                     }
-                }
-                if (repository.Books.GetBook(reader.BookId, true).NumOfBooks <= repository.Books.GetBook(reader.BookId, true).Readers.Count()+1)
+                } if (repository.Books.GetBook(int.Parse(bookid), true) != null)
                 {
-                    
-                    var uppbook = repository.Books.GetBook(int.Parse(bookid), true);
-                    uppbook.IsAny = false;
-                    repository.Books.UpdateBook(uppbook);
+                    if (repository.Books.GetBook(int.Parse(bookid), true).NumOfBooks <= repository.Books.GetBook(int.Parse(bookid), true).HandBookValue+1)
+                    {
+
+                        var uppbook = repository.Books.GetBook(int.Parse(bookid), true);
+                        uppbook.IsAny = false;
+                        repository.Books.UpdateBook(uppbook);
+
+                    }
+                    var book = repository.Books.GetBook(int.Parse(bookid), true);
+                    book.HandBookValue += 1;
+                    repository.Books.UpdateBook(book);
+                    reader.TblBooks = book;
+                    reader.HaveBooks = true;
                 }
             } else
             {
                 reader.HaveBooks = false;
+                reader.TblBooks = null;
             }
             repository.Readers.UpdateReader(reader);
-            
+            Operations operation = new Operations();
+            operation.Time = DateTime.Now;
+            operation.Title = "Обновление читателя: " + reader.Name ;
+            repository.Operations.CreateOperation(operation);
             this.Hide();
         }
 

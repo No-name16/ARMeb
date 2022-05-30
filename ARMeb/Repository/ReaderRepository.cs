@@ -1,4 +1,4 @@
-﻿using ARMeb.Contracts;
+﻿  using ARMeb.Contracts;
 using ARMeb.Models;
 using System;
 using System.Collections.Generic;
@@ -25,6 +25,7 @@ namespace ARMeb.Repository
 
         public IEnumerable<Readers> GetAllReaders(bool trackChanges) =>
             FindAll(trackChanges)
+            //.Include(x => x.TblBooks)
             .OrderBy(x => x.Id)
             .ToList();
 

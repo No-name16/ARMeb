@@ -27,18 +27,23 @@ namespace ARMeb
         public UpdatePageBook(int userId)
         {
             InitializeComponent();
-            db = new ARMebContext();
-            db.Readers.Load();
-           
+            var book = repository.Books.GetBook(userId, true);
+            txtUsername.Text = book.Bookname;
+            txtAuthor.Text = book.BookAuthor;
+            txtPassword.Text = book.NumOfBooks.ToString();
             Id = userId;
         }
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
-            tblBook item = new tblBook();
+            var item = repository.Books.GetBook(Id, true);
             item.Bookname = txtUsername.Text;
             item.BookAuthor = txtAuthor.Text;
             item.NumOfBooks = int.Parse(txtPassword.Text);
             repository.Books.UpdateBook(item);
+            Operations operation = new Operations();
+            operation.Time = DateTime.Now;
+            operation.Title = "Обновление книги: " + item.Bookname + " -  " + item.BookAuthor;
+            repository.Operations.CreateOperation(operation);
             this.Hide();
         }
        

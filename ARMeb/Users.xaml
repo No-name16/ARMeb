@@ -17,9 +17,9 @@
 
                 <Label Content="Поиск:   " Margin="00 10" FontSize="20" FontWeight="DemiBold" Foreground="DarkSlateGray" Height="35" Width="240" HorizontalAlignment="Right"/>
                 <Label Content="ФИО:   " FontSize="20" FontWeight="DemiBold" Foreground="DarkSlateGray" HorizontalAlignment="Right" Width="240"/>
-                <TextBox x:Name="BookName" Margin="00 10" Background="LightGray" FontSize="20" HorizontalAlignment="Right" Width="248" Height="23" />
+                <TextBox x:Name="BookName" Margin="00 10" Background="LightGray" Foreground="DimGray" FontSize="16" HorizontalAlignment="Right" Width="248" Height="23" />
                 <Label Content="Возраст:   " FontSize="20" FontWeight="DemiBold" Foreground="DarkSlateGray" HorizontalAlignment="Right" Width="240"/>
-                <TextBox x:Name="BookAuthor" Margin="00 10" Background="LightGray" FontSize="20" HorizontalAlignment="Right" Width="248" Height="23" />
+                <TextBox x:Name="BookAuthor" PreviewTextInput="PreviewTextInput" Margin="00 10" Background="LightGray" FontSize="16" Foreground="DimGray" HorizontalAlignment="Right" Width="248" Height="23" />
                 <Button x:Name="opnBookWView" HorizontalAlignment="Right" Background="DarkCyan" Foreground="White" BorderBrush="Transparent" FontWeight="DemiBold" Margin="00 10" FontSize="16" Content="Найти" Height="43" Width="247" Click="opnBookWView_Click"></Button>
 
             </StackPanel>
@@ -30,7 +30,7 @@
                     <DataGrid.Columns >
                         <DataGridTextColumn Binding="{Binding Id}" Header="ID" Width="50"/>
                         <DataGridTextColumn Binding="{Binding Name}" Header="ФИО" Width="150"/>
-                        <DataGridTextColumn Binding="{Binding Bookname}" Header="Книги" Width="100"/>
+                        <DataGridTextColumn Binding="{Binding TblBooks.Bookname}" Header="Книги" Width="100"/>
                         <DataGridTextColumn Binding="{Binding Age}" Header="Возраст" Width="90"/>
                         <DataGridTextColumn Binding="{Binding HaveBooks}" Header="Должник " Width="90"/>
                     </DataGrid.Columns>

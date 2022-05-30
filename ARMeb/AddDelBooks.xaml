@@ -16,7 +16,7 @@
                 <Separator Margin="00 " Height="26"></Separator>
 
 
-                <DataGrid x:Name="myDataGrid" AutoGenerateColumns="False"  Width="806"  HorizontalGridLinesBrush="DarkSeaGreen" VerticalGridLinesBrush="DarkSeaGreen"  FontWeight="Bold" Height="305" CanUserReorderColumns="False" CanUserResizeColumns="False" >
+                <DataGrid x:Name="myDataGrid" IsReadOnly="True" AutoGenerateColumns="False"  Width="806"  HorizontalGridLinesBrush="DarkSeaGreen" VerticalGridLinesBrush="DarkSeaGreen"  FontWeight="Bold" Height="305" CanUserReorderColumns="False" CanUserResizeColumns="False" >
 
 
                     <DataGrid.Columns >

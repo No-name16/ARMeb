@@ -18,7 +18,7 @@ namespace ARMeb.Models
             modelBuilder.Entity<Readers>()
                 .HasRequired<tblBook>(s => s.TblBooks)
                 .WithMany(g => g.Readers)
-                .HasForeignKey<int>(s => s.BookId);
+                .HasForeignKey<int?>(s => s.BookId);
         }
     
     public DbSet<tblUser> Users { get; set; }

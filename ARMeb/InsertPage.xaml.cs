@@ -65,9 +65,9 @@ namespace ARMeb
                         bookid += st;
                     }
                 }
-                if (repository.Books.GetBook(int.Parse(bookid), true).Readers != null)
+                if (repository.Books.GetBook(int.Parse(bookid),true) != null)
                 {
-                    if (repository.Books.GetBook(int.Parse(bookid), true).NumOfBooks <= repository.Books.GetBook(int.Parse(bookid), true).Readers.Count() + 1)
+                    if (repository.Books.GetBook(int.Parse(bookid), true).NumOfBooks <= repository.Books.GetBook(int.Parse(bookid), true).HandBookValue + 1)
                     {
 
                         var uppbook = repository.Books.GetBook(int.Parse(bookid), true);
@@ -75,11 +75,26 @@ namespace ARMeb
                         repository.Books.UpdateBook(uppbook);
                     }
                 }
-
-                reader.TblBooks = repository.Books.GetBook(int.Parse(bookid), true);
+                var book = repository.Books.GetBook(int.Parse(bookid), true);
+                reader.TblBooks = book;
+                book.HandBookValue += 1;
+                repository.Books.UpdateBook(book);
                 reader.HaveBooks = true;
                 repository.Readers.CreateReader(reader);
-
+                Operations operation = new Operations();
+                operation.Time = DateTime.Now;
+                operation.Title = "Созднаие нового читателя " + reader.Name;
+                repository.Operations.CreateOperation(operation);
+                this.Hide();
+            } else
+            {
+                reader.TblBooks = null;
+                reader.HaveBooks = false;
+                repository.Readers.CreateReader(reader);
+                Operations operation = new Operations();
+                operation.Time = DateTime.Now;
+                operation.Title = "Созднаие нового читателя " + reader.Name;
+                repository.Operations.CreateOperation(operation);
                 this.Hide();
             }
         }

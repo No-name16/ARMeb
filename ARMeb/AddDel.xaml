@@ -22,7 +22,7 @@
                     <DataGrid.Columns >
                         <DataGridTextColumn Binding="{Binding Id}" Header="ID" Width="50"/>
                         <DataGridTextColumn Binding="{Binding Name}" Header="ФИО" Width="150"/>
-                        <DataGridTextColumn Binding="{Binding Bookname}" Header="Книги" Width="100"/>
+                        <DataGridTextColumn Binding="{Binding TblBooks.Bookname}" Header="Книги" Width="100"/>
                         <DataGridTextColumn Binding="{Binding Age}" Header="Возраст" Width="90"/>
                         <DataGridTextColumn Binding="{Binding HaveBooks}" Header="Должник " Width="90"/>
                         <DataGridTemplateColumn>

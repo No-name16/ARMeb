@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ARMeb.Models;
 using System.Data.Entity;
+using ARMeb.Repository;
 
 namespace ARMeb
 {
@@ -19,7 +20,8 @@ namespace ARMeb
     /// </summary>
     public partial class MainMenu : Window
     {
-        ARMebContext db;
+        static ARMebContext db = new ARMebContext();
+        RepositoryManager repository = new RepositoryManager(db);
 
         public MainMenu()
         {
@@ -30,14 +32,10 @@ namespace ARMeb
         }
         private void CloseApp(object sender, MouseButtonEventArgs e)
         {
-            using (var context = new ARMebContext()) //добавление в бд пользователя
+            foreach (Operations item in repository.Operations.GetAllOperations(true))
             {
-                foreach (var item in context.Listoperations)
-                {
-                    context.Listoperations.Attach(item);
-                    context.Listoperations.Remove(item);
-                    context.SaveChanges();
-                }
+                repository.Operations.DeleteOperation(item);
+                repository.Save();
             }
 
             Application.Current.Shutdown();

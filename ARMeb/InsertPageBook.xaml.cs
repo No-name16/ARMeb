@@ -50,7 +50,10 @@ namespace ARMeb
                 };
                 repository.Books.CreateBook(group);
                 context.SaveChanges();
-
+                Operations operation = new Operations();
+                operation.Time = DateTime.Now;
+                operation.Title = "Созднаие новой книги: " + group.Bookname+" -  "+ group.BookAuthor;
+                repository.Operations.CreateOperation(operation);
                 this.Hide();
             }
         }

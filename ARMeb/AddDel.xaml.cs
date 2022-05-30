@@ -29,27 +29,25 @@ namespace ARMeb
         {
             InitializeComponent();
             db = new ARMebContext();
-            var readers = repository.Readers.GetAllReaders(trackChanges: true);
-            DataShow(readers);
+           myDataGrid.ItemsSource = repository.Readers.GetAllReaders(trackChanges: false);
+           // DataShow(readers);
         }
 
         private void insertBtn_Click(object sender, RoutedEventArgs e)
         {
             InsertPage page = new InsertPage();
             page.ShowDialog();
-            var readers = repository.Readers.GetAllReaders(trackChanges: true);
-            DataShow(readers);
+            myDataGrid.ItemsSource = repository.Readers.GetAllReaders(trackChanges: true);
+            
         }
 
         private void editBtn_Click(object sender, RoutedEventArgs e)
         {
 
-            UpdatePage page = new UpdatePage(((Re)myDataGrid.SelectedItem).Id);
+            UpdatePage page = new UpdatePage(((Readers)myDataGrid.SelectedItem).Id);
             page.ShowDialog();
-            var readers = repository.Readers.GetAllReaders(trackChanges: true);
-            DataShow(readers);
-
-
+            myDataGrid.ItemsSource = repository.Readers.GetAllReaders(trackChanges: true);
+            //DataShow(readers);
         }
         private void CloseApp(object sender, MouseButtonEventArgs e)
         {
@@ -58,50 +56,38 @@ namespace ARMeb
             this.Close();
         }
 
-        private void DataShow(IEnumerable<Readers> readers)
-        {
-            List<Re> data = new List<Re>();
-            foreach (Readers reader in readers)
-            {
-                string book = "";
-                if (reader.TblBooks == null)
-                {
-                    book = "Нету книг";
-                }
-                else
-                {
-                    book = reader.TblBooks.Bookname;
-                }
-                Re newperson = new Re()
-                {
-                    Id = reader.Id,
-                    Name = reader.Name,
-                    HaveBooks = reader.HaveBooks,
-                    Bookname = book,
-                    Age = reader.Age,
-                };
-
-                data.Add(newperson);
-            }
-            myDataGrid.ItemsSource = data;
-        }
+        //private void DataShow(IEnumerable<Readers> readers)
+        //{
+        //    List<Re> data = new List<Re>();
+        //    foreach (Readers reader in readers)
+        //    {
+        //        string book = "";
+        //        if (reader.TblBooks == null)
+        //        {
+        //            book = "Нету книг";
+        //        }
+        //        else
+        //        {
+        //            book = reader.TblBooks.Bookname;
+        //        }
+        //        myDataGrid.ItemsSource = repository.Readers.GetAllReaders(trackChanges: false);
+        //    }
 
         private void deleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            var newper = repository.Readers.GetReader(((Re)myDataGrid.SelectedItem).Id, true);
-            if (newper.TblBooks != null)
+            var newper = repository.Readers.GetReader(((Readers)myDataGrid.SelectedItem).Id, true);
+            if (newper.TblBooks != null && newper.BookId != null)
             {
                 var readerlist = db.Readers.Where(x => x.BookId == newper.BookId).ToList();
                 if (newper.TblBooks.NumOfBooks < readerlist.Count()-1 )
                 {
-                    var uppbook = repository.Books.GetBook(newper.BookId, true);
+                    var uppbook = repository.Books.GetBook((int)newper.BookId, true);
                     uppbook.IsAny = true;
                     repository.Books.UpdateBook(uppbook);
                 }
             }
             repository.Readers.DeleteReader(newper);
-            var readers = repository.Readers.GetAllReaders(trackChanges: true);
-            DataShow(readers);
+            myDataGrid.ItemsSource = repository.Readers.GetAllReaders(trackChanges:true);
         }
     }
 

@@ -14,6 +14,7 @@ using System.Data.Entity;
 using System.Linq;
 using ARMeb.Contracts;
 using ARMeb.Repository;
+using System.Text.RegularExpressions;
 
 namespace ARMeb
 {
@@ -46,11 +47,15 @@ namespace ARMeb
             window.Show();
             this.Close();
         }
-
+        private void PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
         private void opnBookWView_Click(object sender, RoutedEventArgs e)
         {
             // Извлечь всех заказчиков и отобразить их имена в консоли
-            List<Re> data = new List<Re>();
+            IEnumerable<Readers> list;
             string name = BookName.Text;
             int age;
             if (BookAuthor.Text == "")
@@ -61,101 +66,26 @@ namespace ARMeb
             {
                 age = int.Parse(BookAuthor.Text);
             }
-
+            var readers = repository.Readers.GetAllReaders(trackChanges: false);
+            IEnumerable<Readers> readerlist;
             if (name == "" && age == 0)
             {
-                var readers = repository.Readers.GetAllReaders(trackChanges: false);
-                foreach (Readers reader in readers)
-                {
-                    string book = "";
-                    if (reader.TblBooks == null)
-                    {
-                        book = "Нету книг";
-                    } else
-                    {
-                        book = reader.TblBooks.Bookname;
-                    }
-                    Re newperson = new Re()
-                    {
-                        Id = reader.Id,
-                        Name = reader.Name,
-                        HaveBooks = reader.HaveBooks,
-                        Bookname = book,
-                        Age = reader.Age,
-                    };
 
-                    data.Add(newperson);
-                }
+                bookGrid.ItemsSource = readers;
             }
             else if (name != "" && age != 0)
             {
-                using (var context = new ARMebContext()) //добавление в бд пользователя
-                {
-                    foreach (var reader in db.Readers)
-                    {
-                        if (reader.Name == name && reader.Age == age)
-                        {
-                            string book = "";
-                            if (reader.TblBooks == null)
-                            {
-                                book = "Нету книг";
-                            }
-                            else
-                            {
-                                book = reader.TblBooks.Bookname;
-                            }
-                            Re newperson = new Re()
-                            {
-                                Id = reader.Id,
-                                Name = reader.Name,
-                                HaveBooks = reader.HaveBooks,
-                                Bookname = book,
-                                Age = reader.Age,
-                            };
+                readerlist = readers.Where(x => x.Name == name && x.Age == age);
+                bookGrid.ItemsSource = readerlist;
+            } else {
 
-                            data.Add(newperson);
-                        }
-                    }
-                    }
-                } else { 
-            
-                using (var context = new ARMebContext()) //добавление в бд пользователя
-                {
-                    foreach (var item in db.Readers)
-                    {
-                        if (name == item.Name || age == item.Age)
-                        {
-                            string book = "";
-                            if (item.TblBooks == null)
-                            {
-                                book = "Нету книг";
-                            }
-                            else
-                            {
-                                book = item.TblBooks.Bookname;
-                            }
-
-                            Re newperson = new Re()
-                            {
-                                Id = item.Id,
-                                Name = item.Name,
-                                HaveBooks = item.HaveBooks,
-                                Bookname = book,
-                                Age = item.Age,
-                            };
-
-                            data.Add(newperson);
-                        }
-                    }
-                }
+                readerlist = readers.Where(x => x.Name == name || x.Age == age);
+                bookGrid.ItemsSource = readerlist;
             }
-            bookGrid.ItemsSource = data;
+                    
+            
         }
-        private void sortType_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ComboBox comboBox = (ComboBox)sender;
-            TextBlock selectedItem = (TextBlock)comboBox.SelectedItem;
-            sort = selectedItem.Text.ToString();
-        }
+        
     }
+
 }

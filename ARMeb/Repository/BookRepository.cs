@@ -30,11 +30,6 @@ namespace ARMeb.Repository
         public tblBook GetBook(int id, bool trackChanges) =>
             FindByCondition(c => c.Id.Equals(id), trackChanges)
             .FirstOrDefault();
-
-        public int GetId(string name, bool trackChanges) =>
-             FindByCondition(c => c.Bookname.Equals(name), trackChanges)
-            .FirstOrDefault()
-            .Id;
     }
 }
    

@@ -12,7 +12,7 @@ namespace ARMeb.Repository
 
         private BookRepository _bookRepository;
         private ReaderRepository _readerRepository;
-
+        private OperationRepository _operationRepository;
         public RepositoryManager(ARMebContext repository)
         {
             _repositoryContext = repository;
@@ -28,7 +28,16 @@ namespace ARMeb.Repository
                 return _bookRepository;
             }
         }
+        public OperationRepository Operations
+        {
+            get
+            {
+                if (_operationRepository == null)
+                    _operationRepository = new OperationRepository(_repositoryContext);
 
+                return _operationRepository;
+            }
+        }
         public ReaderRepository Readers
         {
             get
